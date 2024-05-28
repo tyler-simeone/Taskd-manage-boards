@@ -15,7 +15,8 @@ var connectionString = configuration.GetConnectionString("ProjectBLocalConnectio
 
 
 // Add services to the container.
-builder.Services.AddControllers();;
+builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IRequestValidator, RequestValidator>();
 builder.Services.AddSingleton<IBoardsRepository, BoardsRepository>();
 builder.Services.AddSingleton<IBoardsDataservice, BoardsDataservice>();
