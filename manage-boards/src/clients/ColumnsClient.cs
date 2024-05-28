@@ -28,15 +28,21 @@ namespace manage_boards.src.clients
 
         public async Task<List<Column>> GetColumns(int boardId, int userId)
         {
-            // check for existing auth token in request and reuse that instead of generating new...
-            // if we're at this point then client has auth token
-            var context = _httpContextAccessor.HttpContext;
-            var accessToken = context.Request.Headers["Authorization"].ToString().Split(' ')[1]; // remove "Bearer " prefix from header
             var bearerToken = new TokenResponse();
-            if (accessToken == String.Empty)
+            
+            // check for existing auth token in request and reuse that instead of generating new...
+            var context = _httpContextAccessor.HttpContext;
+            var authHeader = context.Request.Headers["Authorization"].ToString();
+            
+            // if we're at this point then client should have auth token...
+            if (authHeader == String.Empty)
                 bearerToken = await _authClient.GetBearerToken();
             else 
-                bearerToken.access_token = accessToken;
+            {
+                if (authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+                    authHeader = authHeader["Bearer ".Length..].Trim();
+                bearerToken.access_token = authHeader;
+            }
                 
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken.access_token);
             HttpResponseMessage response = await _client.GetAsync($"/api/Columns?boardId={boardId}&userId={userId}");
