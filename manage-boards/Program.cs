@@ -20,6 +20,7 @@ builder.Services.AddSingleton<IRequestValidator, RequestValidator>();
 builder.Services.AddSingleton<IBoardsRepository, BoardsRepository>();
 builder.Services.AddSingleton<IBoardsDataservice, BoardsDataservice>();
 builder.Services.AddSingleton<IColumnsClient, ColumnsClient>();
+builder.Services.AddSingleton<IAuthClient, AuthClient>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
