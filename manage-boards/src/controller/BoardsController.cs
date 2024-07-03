@@ -21,15 +21,15 @@ namespace manage_boards.src.controller
             _boardsRepository = boardsRepository;
         }
 
-        [HttpGet("{columnId}")]
-        [ProducesResponseType(typeof(Column), StatusCodes.Status200OK)]
-        public async Task<ActionResult<Column>> GetBoard(int boardId, int userId)
+        [HttpGet("{boardId}")]
+        [ProducesResponseType(typeof(BoardDetails), StatusCodes.Status200OK)]
+        public async Task<ActionResult<BoardDetails>> GetBoard(int boardId, int userId)
         {
             if (_validator.ValidateGetBoard(userId, boardId))
             {
                 try
                 {
-                    Board board = await _boardsRepository.GetBoard(boardId, userId);
+                    BoardDetails board = await _boardsRepository.GetBoard(boardId, userId);
                     return Ok(board);
                 }
                 catch (Exception ex)
@@ -113,7 +113,7 @@ namespace manage_boards.src.controller
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{boardId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult DeleteBoard(int boardId, int userId)
         {

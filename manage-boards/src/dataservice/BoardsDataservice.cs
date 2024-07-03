@@ -14,7 +14,7 @@ namespace manage_boards.src.dataservice
             _configuration = configuration;
         }
         
-        public async Task<Board> GetBoard(int boardId, int userId)
+        public async Task<BoardDetails> GetBoard(int boardId, int userId)
         {
             var connectionString = _configuration.GetConnectionString("ProjectBLocalConnection");
 
@@ -35,11 +35,11 @@ namespace manage_boards.src.dataservice
                         {
                             if (reader.Read())
                             {
-                                Board board = ExtractBoardFromReader(reader);
+                                BoardDetails board = ExtractBoardDetailsFromReader(reader);
                                 return board;
                             }
 
-                            return new Board();
+                            return new BoardDetails();
                         }
                     }
                     catch (Exception ex)
@@ -181,14 +181,28 @@ namespace manage_boards.src.dataservice
         {
             int boardId = reader.GetInt32("BoardId");
             int userId = reader.GetInt32("UserId");
-            string name = reader.GetString("ColumnName");
-            string description = reader.GetString("ColumnDescription");
-            DateTime createDatetime = reader.GetDateTime("CreateDatetime");
-            int createUserId = reader.GetInt32("CreateUserId");
-            DateTime updateDatetime = reader.GetDateTime("UpdateDatetime");
-            int updateUserId = reader.GetInt32("UpdateUserId");
+            string name = reader.GetString("BoardName");
 
             return new Board()
+            {
+                BoardId = boardId,
+                UserId = userId,
+                BoardName = name
+            };
+        }
+
+        private static BoardDetails ExtractBoardDetailsFromReader(MySqlDataReader reader)
+        {
+            int boardId = reader.GetInt32("BoardId");
+            int userId = reader.GetInt32("UserId");
+            string name = reader.GetString("BoardName");
+            string description = reader.GetString("BoardDescription");
+            DateTime createDatetime = reader.GetDateTime("CreateDatetime");
+            int createUserId = reader.GetInt32("CreateUserId");
+            DateTime? updateDatetime = reader.IsDBNull(reader.GetOrdinal("UpdateDatetime")) ? null : reader.GetDateTime("UpdateDatetime");
+            int? updateUserId = reader.IsDBNull(reader.GetOrdinal("UpdateUserId")) ? null : reader.GetInt32("UpdateUserId");
+
+            return new BoardDetails()
             {
                 BoardId = boardId,
                 UserId = userId,

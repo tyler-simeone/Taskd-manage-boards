@@ -6,7 +6,7 @@ namespace manage_boards.src.dataservice
     public interface IBoardsDataservice
     {
 
-        public Task<Board> GetBoard(int boardId, int userId);
+        public Task<BoardDetails> GetBoard(int boardId, int userId);
 
         public Task<BoardList> GetBoards(int userId);
 
