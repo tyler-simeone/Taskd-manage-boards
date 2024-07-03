@@ -16,7 +16,7 @@ namespace manage_boards.src.repository
             _columnsClient = columnsClient;
         }
 
-        public async Task<Board> GetBoard(int boardId, int userId)
+        public async Task<BoardDetails> GetBoard(int boardId, int userId)
         {
             try
             {

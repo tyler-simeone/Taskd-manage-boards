@@ -5,7 +5,7 @@ namespace manage_boards.src.repository
 {
     public interface IBoardsRepository
     {
-        public Task<Board> GetBoard(int boardId, int userId);
+        public Task<BoardDetails> GetBoard(int boardId, int userId);
 
         public Task<BoardList> GetBoards(int userId);
 
