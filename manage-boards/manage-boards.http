@@ -1,6 +1,0 @@
-@manage_boards_HostAddress = http://localhost:5032
-
-GET {{manage_boards_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
