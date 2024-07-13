@@ -1,5 +1,6 @@
 using System.Net.Http.Headers;
 using manage_boards.src.models;
+using Microsoft.IdentityModel.Tokens;
 
 namespace manage_boards.src.clients
 {
@@ -15,9 +16,14 @@ namespace manage_boards.src.clients
                              IHttpContextAccessor httpContextAccessor)
         {
             _configuration = configuration;
+
+            var conx = _configuration["ManageColumnsLocalConnection"];
+            if (conx.IsNullOrEmpty())
+                conx = _configuration.GetConnectionString("ManageColumnsLocalConnection");
+            
             _client = new HttpClient
             {
-                BaseAddress = new Uri(_configuration.GetConnectionString("ManageColumnsLocalConnection"))
+                BaseAddress = new Uri(conx)
             };
             _client.DefaultRequestHeaders.Accept.Clear();
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

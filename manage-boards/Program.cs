@@ -40,8 +40,30 @@ builder.Services.AddSwaggerGen(options =>
         });
     });
 
-var userPoolId = configuration["AWS:Cognito:UserPoolId"];
-var awsRegion = configuration["AWS:Cognito:Region"];
+// Configure Kestrel to listen on port 80
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(80); 
+});
+
+builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AllowAll",
+            builder =>
+            {
+                builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+            });
+    });
+
+var userPoolId = configuration["UserPoolId"];
+if (userPoolId.IsNullOrEmpty())
+    userPoolId = configuration["AWS:Cognito:UserPoolId"];
+
+var awsRegion = configuration["Region"];
+if (awsRegion.IsNullOrEmpty())
+    awsRegion = configuration["AWS:Cognito:Region"];
 
 // Add JWT Bearer Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -59,17 +81,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 // Add authorization
 builder.Services.AddAuthorization();
-
-builder.Services.AddCors(options =>
-    {
-        options.AddPolicy("AllowAll",
-            builder =>
-            {
-                builder.AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader();
-            });
-    });
 
 var app = builder.Build();
 
