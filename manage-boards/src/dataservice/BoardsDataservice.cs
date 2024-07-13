@@ -1,6 +1,7 @@
 using System;
 using manage_boards.src.models;
 using manage_boards.src.models.requests;
+using Microsoft.IdentityModel.Tokens;
 using MySql.Data.MySqlClient;
 
 namespace manage_boards.src.dataservice
@@ -8,17 +9,19 @@ namespace manage_boards.src.dataservice
     public class BoardsDataservice : IBoardsDataservice
     { 
         private IConfiguration _configuration;
+        private string _conx;
 
         public BoardsDataservice(IConfiguration configuration)
         {
             _configuration = configuration;
+            _conx = _configuration["ProjectBLocalConnection"];
+            if (_conx.IsNullOrEmpty())
+                _conx = _configuration.GetConnectionString("ProjectBLocalConnection");
         }
         
         public async Task<BoardDetails> GetBoard(int boardId, int userId)
         {
-            var connectionString = _configuration.GetConnectionString("ProjectBLocalConnection");
-
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(_conx))
             {
                 string query = $"CALL ProjectB.BoardGetByUserIdAndBoardId(@paramUserId, @paramBoardId)";
 
@@ -53,9 +56,7 @@ namespace manage_boards.src.dataservice
 
         public async Task<BoardList> GetBoards(int userId)
         {
-            var connectionString = _configuration.GetConnectionString("ProjectBLocalConnection");
-
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(_conx))
             {
                 string query = $"CALL ProjectB.BoardGetListByUserId(@paramUserId)";
 
@@ -91,9 +92,7 @@ namespace manage_boards.src.dataservice
 
         public async void CreateBoard(CreateBoard createBoardRequest)
         {
-            var connectionString = _configuration.GetConnectionString("ProjectBLocalConnection");
-
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(_conx))
             {
                 string query = $"CALL ProjectB.BoardPersist(@paramUserId, @paramBoardName, @paramBoardDescription, @paramCreateUserId)";
 
@@ -121,9 +120,7 @@ namespace manage_boards.src.dataservice
         public async void UpdateBoard(UpdateBoard updateBoardRequest)
         {
 
-            var connectionString = _configuration.GetConnectionString("ProjectBLocalConnection");
-
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(_conx))
             {
                 string query = $"CALL ProjectB.BoardUpdate(@paramBoardId, @paramBoardName, @paramBoardDescription, @paramUpdateUserId)";
 
@@ -150,9 +147,7 @@ namespace manage_boards.src.dataservice
 
         public async void DeleteBoard(int boardId, int userId)
         {
-            var connectionString = _configuration.GetConnectionString("ProjectBLocalConnection");
-
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(_conx))
             {
                 string query = $"CALL ProjectB.BoardDelete(@paramBoardId, @paramUpdateUserId)";
 
