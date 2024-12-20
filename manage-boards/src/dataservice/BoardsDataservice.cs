@@ -1,4 +1,4 @@
-using System;
+using System.Data;
 using manage_boards.src.models;
 using manage_boards.src.models.requests;
 using Microsoft.IdentityModel.Tokens;
@@ -15,18 +15,19 @@ namespace manage_boards.src.dataservice
         {
             _configuration = configuration;
             _conx = _configuration["ProjectBLocalConnection"];
+
             if (_conx.IsNullOrEmpty())
                 _conx = _configuration.GetConnectionString("ProjectBLocalConnection");
         }
         
         public async Task<BoardDetails> GetBoard(int boardId, int userId)
         {
-            using (MySqlConnection connection = new MySqlConnection(_conx))
+            using (MySqlConnection connection = new(_conx))
             {
-                string query = $"CALL ProjectB.BoardGetByUserIdAndBoardId(@paramUserId, @paramBoardId)";
-
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand command = new("ProjectB.BoardGetByUserIdAndBoardId", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
+                    
                     command.Parameters.AddWithValue("@paramUserId", userId);
                     command.Parameters.AddWithValue("@paramBoardId", boardId);
 
@@ -56,12 +57,12 @@ namespace manage_boards.src.dataservice
 
         public async Task<BoardList> GetBoards(int userId)
         {
-            using (MySqlConnection connection = new MySqlConnection(_conx))
+            using (MySqlConnection connection = new(_conx))
             {
-                string query = $"CALL ProjectB.BoardGetListByUserId(@paramUserId)";
-
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand command = new("ProjectB.BoardGetListByUserId", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
+
                     command.Parameters.AddWithValue("@paramUserId", userId);
 
                     try
@@ -92,12 +93,12 @@ namespace manage_boards.src.dataservice
 
         public async void CreateBoard(CreateBoard createBoardRequest)
         {
-            using (MySqlConnection connection = new MySqlConnection(_conx))
+            using (MySqlConnection connection = new(_conx))
             {
-                string query = $"CALL ProjectB.BoardPersist(@paramUserId, @paramBoardName, @paramBoardDescription, @paramCreateUserId)";
-
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand command = new("ProjectB.BoardPersist", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
+
                     command.Parameters.AddWithValue("@paramUserId", createBoardRequest.UserId);
                     command.Parameters.AddWithValue("@paramBoardName", createBoardRequest.BoardName);
                     command.Parameters.AddWithValue("@paramBoardDescription", createBoardRequest.BoardDescription);
@@ -120,12 +121,12 @@ namespace manage_boards.src.dataservice
         public async void UpdateBoard(UpdateBoard updateBoardRequest)
         {
 
-            using (MySqlConnection connection = new MySqlConnection(_conx))
+            using (MySqlConnection connection = new(_conx))
             {
-                string query = $"CALL ProjectB.BoardUpdate(@paramBoardId, @paramBoardName, @paramBoardDescription, @paramUpdateUserId)";
-
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand command = new("ProjectB.BoardUpdate", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
+
                     command.Parameters.AddWithValue("@paramBoardId", updateBoardRequest.BoardId);
                     command.Parameters.AddWithValue("@paramBoardName", updateBoardRequest.BoardName);
                     command.Parameters.AddWithValue("@paramBoardDescription", updateBoardRequest.BoardDescription);
@@ -147,12 +148,12 @@ namespace manage_boards.src.dataservice
 
         public async void DeleteBoard(int boardId, int userId)
         {
-            using (MySqlConnection connection = new MySqlConnection(_conx))
+            using (MySqlConnection connection = new(_conx))
             {
-                string query = $"CALL ProjectB.BoardDelete(@paramBoardId, @paramUpdateUserId)";
-
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand command = new("ProjectB.BoardDelete", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
+
                     command.Parameters.AddWithValue("@paramBoardId", boardId);
                     command.Parameters.AddWithValue("@paramUpdateUserId", userId);
 
