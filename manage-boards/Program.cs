@@ -41,10 +41,10 @@ builder.Services.AddSwaggerGen(options =>
     });
 
 // Configure Kestrel to listen on port 80
-builder.WebHost.ConfigureKestrel(serverOptions =>
-{
-    serverOptions.ListenAnyIP(80); 
-});
+// builder.WebHost.ConfigureKestrel(serverOptions =>
+// {
+//     serverOptions.ListenAnyIP(80); 
+// });
 
 builder.Services.AddCors(options =>
     {
