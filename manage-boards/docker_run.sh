@@ -5,9 +5,8 @@ source .env
 
 # Run the Docker container with specified environment variables and port mapping
 docker run -d \
-  --name test-boards \
+  --name manage-boards \
   -p 5032:80 \
-  --network my_custom_network \
   -e UserPoolId=$USER_POOL_ID \
   -e Region=$REGION \
   -e ManageAuthLocalConnection=$MANAGE_AUTH_LOCAL_CONX \
