@@ -14,10 +14,10 @@ namespace manage_boards.src.dataservice
         public BoardsDataservice(IConfiguration configuration)
         {
             _configuration = configuration;
-            _conx = _configuration["ProjectBLocalConnection"];
+            _conx = _configuration["LocalDBConnection"];
 
             if (_conx.IsNullOrEmpty())
-                _conx = _configuration.GetConnectionString("ProjectBLocalConnection");
+                _conx = _configuration.GetConnectionString("LocalDBConnection");
         }
         
         public async Task<BoardDetails> GetBoard(int boardId, int userId)

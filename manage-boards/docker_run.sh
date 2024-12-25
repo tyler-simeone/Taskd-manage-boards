@@ -11,7 +11,7 @@ docker run -d \
   -e Region=$REGION \
   -e ManageAuthLocalConnection=$MANAGE_AUTH_LOCAL_CONX \
   -e ManageColumnsLocalConnection=$MANAGE_COLUMNS_LOCAL_CONX \
-  -e ProjectBLocalConnection=$PROJECT_B_LOCAL_CONX \
+  -e LocalDBConnection=$LOCAL_DB_CONX \
   tylersimeone/projectb/manage-boards:latest
 
 if [ $? -ne 0 ]; then
