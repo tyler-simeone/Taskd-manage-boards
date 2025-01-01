@@ -24,7 +24,7 @@ namespace manage_boards.src.dataservice
         {
             using (MySqlConnection connection = new(_conx))
             {
-                using (MySqlCommand command = new("ProjectB.BoardGetByUserIdAndBoardId", connection))
+                using (MySqlCommand command = new("taskd_db_dev.BoardGetByUserIdAndBoardId", connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     
@@ -59,7 +59,7 @@ namespace manage_boards.src.dataservice
         {
             using (MySqlConnection connection = new(_conx))
             {
-                using (MySqlCommand command = new("ProjectB.BoardGetListByUserId", connection))
+                using (MySqlCommand command = new("taskd_db_dev.BoardGetListByUserId", connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
@@ -95,7 +95,7 @@ namespace manage_boards.src.dataservice
         {
             using (MySqlConnection connection = new(_conx))
             {
-                using (MySqlCommand command = new("ProjectB.BoardPersist", connection))
+                using (MySqlCommand command = new("taskd_db_dev.BoardPersist", connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
@@ -123,7 +123,7 @@ namespace manage_boards.src.dataservice
 
             using (MySqlConnection connection = new(_conx))
             {
-                using (MySqlCommand command = new("ProjectB.BoardUpdate", connection))
+                using (MySqlCommand command = new("taskd_db_dev.BoardUpdate", connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
@@ -150,7 +150,7 @@ namespace manage_boards.src.dataservice
         {
             using (MySqlConnection connection = new(_conx))
             {
-                using (MySqlCommand command = new("ProjectB.BoardDelete", connection))
+                using (MySqlCommand command = new("taskd_db_dev.BoardDelete", connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
 
