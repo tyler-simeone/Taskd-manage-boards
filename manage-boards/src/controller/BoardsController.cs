@@ -90,6 +90,29 @@ namespace manage_boards.src.controller
             }
         }
 
+        [HttpPut("{boardName}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult UpdateBoardName(UpdateBoardName updateBoardNameRequest)
+        {
+            if (_validator.ValidateUpdateBoardName(updateBoardNameRequest))
+            {
+                try
+                {
+                    _boardsRepository.UpdateBoardName(updateBoardNameRequest);
+                    return Ok("Board Name Updated");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                    throw;
+                }
+            }
+            else
+            {
+                return BadRequest("updateBoardNameRequest is required.");
+            }
+        }
+
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult UpdateBoard(UpdateBoard updateBoardRequest)

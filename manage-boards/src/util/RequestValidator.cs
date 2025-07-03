@@ -10,6 +10,8 @@ namespace manage_boards.src.util
 
         bool ValidateCreateBoard(CreateBoard createBoardRequest);
 
+        bool ValidateUpdateBoardName(UpdateBoardName updateBoardRequest);
+
         bool ValidateUpdateBoard(UpdateBoard updateBoardRequest);
 
         bool ValidateDeleteBoard(int boardId, int userId);
@@ -37,6 +39,11 @@ namespace manage_boards.src.util
             return true;
         }
 
+        public bool ValidateUpdateBoardName(UpdateBoardName updateBoardRequest)
+        {
+            return true;
+        }
+        
         public bool ValidateUpdateBoard(UpdateBoard updateBoardRequest)
         {
             return true;

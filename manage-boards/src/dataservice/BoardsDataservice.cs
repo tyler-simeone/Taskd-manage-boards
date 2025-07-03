@@ -118,6 +118,27 @@ namespace manage_boards.src.dataservice
             }
         }
 
+        public async void UpdateBoardName(UpdateBoardName updateBoardNameRequest)
+        {
+            using MySqlConnection connection = new(_conx);
+            using MySqlCommand command = new("taskd_db_dev.BoardUpdateBoardName", connection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@paramUserId", updateBoardNameRequest.UserId);
+            command.Parameters.AddWithValue("@paramBoardId", updateBoardNameRequest.BoardId);
+            command.Parameters.AddWithValue("@paramBoardName", updateBoardNameRequest.BoardName);
+
+            try
+            {
+                await connection.OpenAsync();
+                await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                throw;
+            }
+        }
+
         public async void UpdateBoard(UpdateBoard updateBoardRequest)
         {
 

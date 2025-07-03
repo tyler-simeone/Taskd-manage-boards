@@ -61,6 +61,19 @@ namespace manage_boards.src.repository
             }
         }
 
+        public void UpdateBoardName(UpdateBoardName updateBoardNameRequest)
+        {
+            try
+            {
+                _boardsDataservice.UpdateBoardName(updateBoardNameRequest);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                throw;
+            }
+        }
+
         public void UpdateBoard(UpdateBoard updateBoardRequest)
         {
             try

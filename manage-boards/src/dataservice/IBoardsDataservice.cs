@@ -12,6 +12,8 @@ namespace manage_boards.src.dataservice
 
         public void CreateBoard(CreateBoard createBoardRequest);
 
+        public void UpdateBoardName(UpdateBoardName updateBoardNameRequest);
+
         public void UpdateBoard(UpdateBoard updateBoardRequest);
 
         public void DeleteBoard(int boardId, int userId);
