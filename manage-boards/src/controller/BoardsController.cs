@@ -25,22 +25,15 @@ namespace manage_boards.src.controller
         [ProducesResponseType(typeof(BoardDetails), StatusCodes.Status200OK)]
         public async Task<ActionResult<BoardDetails>> GetBoard(int boardId, int userId)
         {
-            if (_validator.ValidateGetBoard(userId, boardId))
+            try
             {
-                try
-                {
-                    BoardDetails board = await _boardsRepository.GetBoard(boardId, userId);
-                    return Ok(board);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error: {ex.Message}");
-                    throw;
-                }
+                BoardDetails board = await _boardsRepository.GetBoard(boardId, userId);
+                return Ok(board);
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest("boardId and userId are required.");
+                Console.WriteLine($"Error: {ex.Message}");
+                throw;
             }
         }
 
@@ -48,22 +41,15 @@ namespace manage_boards.src.controller
         [ProducesResponseType(typeof(BoardList), StatusCodes.Status200OK)]
         public async Task<ActionResult<BoardList>> GetBoards(int userId)
         {
-            if (_validator.ValidateGetBoards(userId))
+            try
             {
-                try
-                {
-                    BoardList boardList = await _boardsRepository.GetBoards(userId);
-                    return Ok(boardList);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error: {ex.Message}");
-                    throw;
-                }
+                BoardList boardList = await _boardsRepository.GetBoards(userId);
+                return Ok(boardList);
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest("boardId and userId are required.");
+                Console.WriteLine($"Error: {ex.Message}");
+                throw;
             }
         }
 
@@ -71,22 +57,15 @@ namespace manage_boards.src.controller
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult CreateBoard(CreateBoard createBoardRequest)
         {
-            if (_validator.ValidateCreateBoard(createBoardRequest))
+            try
             {
-                try
-                {
-                    _boardsRepository.CreateBoard(createBoardRequest);
-                    return Ok("Board Created");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error: {ex.Message}");
-                    throw;
-                }
+                _boardsRepository.CreateBoard(createBoardRequest);
+                return Ok("Board Created");
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest("createBoardRequest is required.");
+                Console.WriteLine($"Error: {ex.Message}");
+                throw;
             }
         }
 
@@ -94,22 +73,15 @@ namespace manage_boards.src.controller
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult UpdateBoardName(UpdateBoardName updateBoardNameRequest)
         {
-            if (_validator.ValidateUpdateBoardName(updateBoardNameRequest))
+            try
             {
-                try
-                {
-                    _boardsRepository.UpdateBoardName(updateBoardNameRequest);
-                    return Ok("Board Name Updated");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error: {ex.Message}");
-                    throw;
-                }
+                _boardsRepository.UpdateBoardName(updateBoardNameRequest);
+                return Ok("Board Name Updated");
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest("updateBoardNameRequest is required.");
+                Console.WriteLine($"Error: {ex.Message}");
+                throw;
             }
         }
 
@@ -117,22 +89,15 @@ namespace manage_boards.src.controller
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult UpdateBoard(UpdateBoard updateBoardRequest)
         {
-            if (_validator.ValidateUpdateBoard(updateBoardRequest))
+            try
             {
-                try
-                {
-                    _boardsRepository.UpdateBoard(updateBoardRequest);
-                    return Ok("Board Updated");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error: {ex.Message}");
-                    throw;
-                }
+                _boardsRepository.UpdateBoard(updateBoardRequest);
+                return Ok("Board Updated");
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest("updateBoardRequest is required.");
+                Console.WriteLine($"Error: {ex.Message}");
+                throw;
             }
         }
 
@@ -140,22 +105,15 @@ namespace manage_boards.src.controller
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult DeleteBoard(int boardId, int userId)
         {
-            if (_validator.ValidateDeleteBoard(boardId, userId))
+            try
             {
-                try
-                {
-                    _boardsRepository.DeleteBoard(boardId, userId);
-                    return Ok("Board Deleted");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error: {ex.Message}");
-                    throw;
-                }
+                _boardsRepository.DeleteBoard(boardId, userId);
+                return Ok("Board Deleted");
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest("boardId and userId are required.");
+                Console.WriteLine($"Error: {ex.Message}");
+                throw;
             }
         }
     }
